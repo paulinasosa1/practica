@@ -1,4 +1,4 @@
-package com.practica.entities;
+package com.practica.persistence.entity;
 
 import lombok.*;
 

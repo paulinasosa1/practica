@@ -1,6 +1,6 @@
-package com.practica.services;
+package com.practica.service;
 
-import com.practica.entities.Ticket;
+import com.practica.persistence.entity.Ticket;
 
 import java.util.Optional;
 
