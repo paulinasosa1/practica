@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
@@ -19,19 +20,17 @@ public class TicketController {
     ITicketService ticketService;
 
     @PostMapping("")
-    public ResponseEntity<?>save(@RequestBody Ticket ticket) throws BindException {
+    public ResponseEntity<?>save(@Valid @RequestBody Ticket ticket) throws BindException {
 
         Ticket ticketResponse = ticketService.save(ticket);
-        verificarJSON(ticket);
         return ResponseEntity.status(HttpStatus.CREATED).body(ticketResponse);
 
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?>update(@PathVariable Integer id, @RequestBody Ticket ticket){
+    public ResponseEntity<?>update(@PathVariable Integer id, @Valid @RequestBody Ticket ticket){
 
         Ticket ticketResponse = ticketService.update(id,ticket);
-        verificarJSON(ticket);
         return ResponseEntity.status(HttpStatus.OK).body(ticketResponse);
     }
 
@@ -42,11 +41,4 @@ public class TicketController {
         return ResponseEntity.status(HttpStatus.OK).body(ticketResponse);
     }
 
-    private void verificarJSON(Ticket ticket) {
-        if(ticket.getTitle() == ""  || ticket.getTitle() == null||
-           ticket.getDetail() == "" || ticket.getDetail() == null||
-           ticket.getEstimate() == 0){
-            throw new RequestException("Todos los campos son requeridos", HttpStatus.BAD_REQUEST);
-        }
-    }
 }
