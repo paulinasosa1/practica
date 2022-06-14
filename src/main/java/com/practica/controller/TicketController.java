@@ -1,5 +1,6 @@
 package com.practica.controller;
 
+import com.practica.controller.dto.CtrlTicketRsp;
 import com.practica.exception.RequestException;
 import com.practica.persistence.entity.Ticket;
 import com.practica.service.ITicketService;
@@ -22,7 +23,7 @@ public class TicketController {
     @PostMapping("")
     public ResponseEntity<?>save(@Valid @RequestBody Ticket ticket) throws BindException {
 
-        Ticket ticketResponse = ticketService.save(ticket);
+        CtrlTicketRsp ticketResponse = ticketService.save(ticket);
         return ResponseEntity.status(HttpStatus.CREATED).body(ticketResponse);
 
     }
@@ -30,14 +31,14 @@ public class TicketController {
     @PutMapping("/{id}")
     public ResponseEntity<?>update(@PathVariable Integer id, @Valid @RequestBody Ticket ticket){
 
-        Ticket ticketResponse = ticketService.update(id,ticket);
+        CtrlTicketRsp ticketResponse = ticketService.update(id,ticket);
         return ResponseEntity.status(HttpStatus.OK).body(ticketResponse);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?>getById(@PathVariable Integer id){
 
-       Optional<Ticket> ticketResponse = ticketService.getTicketById(id);
+        CtrlTicketRsp ticketResponse = ticketService.getTicketById(id);
         return ResponseEntity.status(HttpStatus.OK).body(ticketResponse);
     }
 

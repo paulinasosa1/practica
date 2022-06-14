@@ -1,9 +1,11 @@
 package com.practica.service;
 
+import com.practica.controller.dto.CtrlTicketRsp;
 import com.practica.exception.RequestException;
 import com.practica.persistence.entity.Ticket;
 import com.practica.repositories.ITicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -15,13 +17,19 @@ public class TicketServiceImpl implements ITicketService{
     @Autowired
     ITicketRepository ticketRepository;
 
+    @Autowired
+    ConversionService convertService;
+
     @Override
-    public Ticket save(Ticket t) {
-        return ticketRepository.save(t);
+    public CtrlTicketRsp save(Ticket t) {
+
+        Ticket ticket = ticketRepository.save(t);
+        return this.convertService.convert(ticket, CtrlTicketRsp.class);
+
     }
 
     @Override
-    public Ticket update(Integer id, Ticket t) {
+    public CtrlTicketRsp update(Integer id, Ticket t) {
 
         Optional<Ticket> ticketBD = ticketRepository.findById(id);
         if(!ticketBD.isPresent()) throw new RequestException("El ticket que se quiere modificar no existe", HttpStatus.NOT_FOUND);
@@ -35,15 +43,16 @@ public class TicketServiceImpl implements ITicketService{
             ticketRepository.save(ticketUpdate);
         }
 
-        return ticketUpdate;
+        return this.convertService.convert(ticketUpdate, CtrlTicketRsp.class);
     }
 
     @Override
-    public Optional<Ticket> getTicketById(Integer id) {
+    public CtrlTicketRsp getTicketById(Integer id) {
 
         Optional<Ticket> ticket = ticketRepository.findById(id);
         if(!ticket.isPresent()) throw new RequestException("No existe un ticket con el id ingresado", HttpStatus.NOT_FOUND);
 
-        return ticket;
+
+        return this.convertService.convert(ticket.get(), CtrlTicketRsp.class);
     }
 }

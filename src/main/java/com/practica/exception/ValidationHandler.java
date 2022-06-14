@@ -22,7 +22,7 @@ public class ValidationHandler extends ResponseEntityExceptionHandler {
             listaErrores.add(error.getDefaultMessage());
         });
 
-        ErrorDTO errorDTO = new ErrorDTO(listaErrores.toString().replace("[", "").replace("]",""), HttpStatus.BAD_REQUEST.value());
+        ErrorDTO errorDTO = new ErrorDTO(listaErrores.toString(), HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<Object>(errorDTO, HttpStatus.BAD_REQUEST);
 
     }
